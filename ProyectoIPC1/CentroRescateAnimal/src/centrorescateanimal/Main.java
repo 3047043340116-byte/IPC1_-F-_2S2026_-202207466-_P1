@@ -87,11 +87,33 @@ if (guardado) {
     System.out.println("No se pudieron guardar los animales.");
 }
 
+System.out.println("\n=== SIMULAR CIERRE DEL PROGRAMA ===");
+
+AnimalDatos datosNuevos = new AnimalDatos(100);
+
+System.out.println("Se creó un arreglo nuevo.");
+
+System.out.println("\n=== CARGAR ANIMALES ===");
+
+boolean cargado = persistencia.cargar(datosNuevos);
+
+if (cargado) {
+
+    System.out.println("Animales cargados correctamente.");
+
+    System.out.println("\n=== ANIMALES CARGADOS ===");
+
+    datosNuevos.listarAnimales();
+
+} else {
+
+    System.out.println("No se pudieron cargar los animales.");
+}
 System.out.println("\n=== CARGAR ANIMALES ===");
 
 AnimalDatos nuevosDatos = new AnimalDatos(100);
 
-boolean cargado = persistencia.cargar(nuevosDatos);
+
 
 if (cargado) {
     System.out.println("Animales cargados correctamente.");
@@ -103,6 +125,8 @@ if (cargado) {
 } else {
     System.out.println("No se pudieron cargar los animales.");
 }
+
+
 
     }
 }

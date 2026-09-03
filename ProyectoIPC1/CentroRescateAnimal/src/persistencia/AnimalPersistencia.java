@@ -47,7 +47,7 @@ public class AnimalPersistencia {
         }
     }
     
-    public boolean cargar(AnimalDatos datos) {
+public boolean cargar(AnimalDatos datos) {
 
     try {
 
@@ -78,9 +78,14 @@ public class AnimalPersistencia {
 
         return true;
 
+    } catch (java.io.FileNotFoundException e) {
+
+        System.out.println("El archivo todavía no existe.");
+        return false;
+
     } catch (Exception e) {
 
-        System.out.println("No se pudo cargar el archivo.");
+        System.out.println("Error al cargar los animales.");
         return false;
     }
 }

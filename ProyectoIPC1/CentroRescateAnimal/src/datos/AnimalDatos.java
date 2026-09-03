@@ -122,5 +122,14 @@ public Animal getAnimal(int indice) {
 
     return null;
 }
+
+public void limpiarDatos() {
+
+    for (int i = 0; i < animales.length; i++) {
+        animales[i] = null;
+    }
+
+    cantidad = 0;
+}
     
 }
