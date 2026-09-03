@@ -1,0 +1,2 @@
+A001;Firulais;Perro;En tratamiento
+A002;Michi;Gato;Eliminado
