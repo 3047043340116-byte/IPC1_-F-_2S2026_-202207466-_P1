@@ -3,6 +3,10 @@ package centrorescateanimal;
 import datos.AnimalDatos;
 import modelo.Animal;
 import persistencia.AnimalPersistencia;
+import datos.AdoptanteDatos;
+import modelo.Adoptante;
+import persistencia.AdoptantePersistencia;
+
 
 public class Main {
 
@@ -125,6 +129,166 @@ if (cargado) {
 } else {
     System.out.println("No se pudieron cargar los animales.");
 }
+
+System.out.println("\n=== MÓDULO DE ADOPTANTES ===");
+
+AdoptanteDatos datosAdoptantes = new AdoptanteDatos(100);
+
+Adoptante adoptante1 = new Adoptante(
+        "1234567890101",
+        "Juan Pérez",
+        "55555555",
+        "Ciudad de Guatemala",
+        "Activo"
+);
+
+Adoptante adoptante2 = new Adoptante(
+        "9876543210101",
+        "María López",
+        "44444444",
+        "Mixco",
+        "Activo"
+);
+
+datosAdoptantes.registrarAdoptante(adoptante1);
+datosAdoptantes.registrarAdoptante(adoptante2);
+
+System.out.println("\n=== ADOPTANTES REGISTRADOS ===");
+
+datosAdoptantes.listarAdoptantes();
+
+System.out.println("\n=== BUSCAR ADOPTANTE ===");
+
+Adoptante encontradoAdoptante =
+        datosAdoptantes.buscarAdoptante("1234567890101");
+
+if (encontradoAdoptante != null) {
+
+    System.out.println("Adoptante encontrado:");
+    System.out.println(encontradoAdoptante);
+
+} else {
+
+    System.out.println("Adoptante no encontrado.");
+}
+
+System.out.println("\n=== EDITAR ADOPTANTE ===");
+
+boolean actualizadoAdoptante =
+        datosAdoptantes.editarAdoptante(
+                "1234567890101",
+                "Juan Pérez López",
+                "55556666",
+                "Villa Nueva"
+        );
+
+if (actualizadoAdoptante) {
+    System.out.println("Adoptante actualizado correctamente.");
+} else {
+    System.out.println("No se encontró el adoptante.");
+}
+
+datosAdoptantes.listarAdoptantes();
+
+System.out.println("\n=== ELIMINAR ADOPTANTE ===");
+
+boolean eliminadoAdoptante =
+        datosAdoptantes.eliminarAdoptante("9876543210101");
+
+if (eliminadoAdoptante) {
+    System.out.println("Adoptante eliminado correctamente.");
+} else {
+    System.out.println("No se encontró el adoptante.");
+}
+
+System.out.println("\n=== ADOPTANTES DESPUÉS DE ELIMINAR ===");
+
+datosAdoptantes.listarAdoptantes();
+
+System.out.println("\n=== GUARDAR ADOPTANTES ===");
+
+AdoptantePersistencia persistenciaAdoptantes =
+        new AdoptantePersistencia("adoptantes.txt");
+
+boolean guardadoAdoptantes =
+        persistenciaAdoptantes.guardar(datosAdoptantes);
+
+if (guardadoAdoptantes) {
+    System.out.println("Adoptantes guardados correctamente.");
+} else {
+    System.out.println("No se pudieron guardar los adoptantes.");
+}
+
+System.out.println("\n=== CARGAR ADOPTANTES ===");
+
+AdoptanteDatos datosAdoptantesNuevos =
+        new AdoptanteDatos(100);
+
+boolean cargadosAdoptantes =
+        persistenciaAdoptantes.cargar(datosAdoptantesNuevos);
+
+if (cargadosAdoptantes) {
+
+    System.out.println("Adoptantes cargados correctamente.");
+
+    System.out.println("\n=== ADOPTANTES CARGADOS ===");
+
+    datosAdoptantesNuevos.listarAdoptantes();
+
+} else {
+Adoptante adoptanteRepetido = new Adoptante(
+        "1234567890101",
+        "Pedro López",
+        "33333333",
+        "Guatemala",
+        "Activo"
+);
+
+boolean registradoRepetido =
+        datosAdoptantes.registrarAdoptante(adoptanteRepetido);
+
+if (registradoRepetido) {
+    System.out.println("El adoptante fue registrado.");
+} else {
+    System.out.println("No se pudo registrar: el DPI ya existe.");
+}
+    System.out.println("No se pudieron cargar los adoptantes.");
+}
+
+Adoptante dpiIncorrecto = new Adoptante(
+        "123",
+        "Carlos López",
+        "33333333",
+        "Guatemala",
+        "Activo"
+);
+
+boolean registradoIncorrecto =
+        datosAdoptantes.registrarAdoptante(dpiIncorrecto);
+
+if (registradoIncorrecto) {
+    System.out.println("El adoptante fue registrado.");
+} else {
+    System.out.println("No se pudo registrar: DPI inválido.");
+}
+
+Adoptante datosVacios = new Adoptante(
+        "",
+        "",
+        "",
+        "",
+        "Activo"
+);
+
+boolean registradoVacio =
+        datosAdoptantes.registrarAdoptante(datosVacios);
+
+if (registradoVacio) {
+    System.out.println("El adoptante fue registrado.");
+} else {
+    System.out.println("No se pudo registrar: existen datos vacíos.");
+}
+
 
 
 

@@ -1,0 +1,2 @@
+1234567890101;Juan Pérez López;55556666;Villa Nueva;Activo
+9876543210101;María López;44444444;Mixco;Eliminado
