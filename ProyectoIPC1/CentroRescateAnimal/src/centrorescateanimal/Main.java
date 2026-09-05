@@ -6,6 +6,10 @@ import persistencia.AnimalPersistencia;
 import datos.AdoptanteDatos;
 import modelo.Adoptante;
 import persistencia.AdoptantePersistencia;
+import datos.SolicitudDatos;
+import modelo.Solicitud;
+
+
 
 
 public class Main {
@@ -289,6 +293,122 @@ if (registradoVacio) {
     System.out.println("No se pudo registrar: existen datos vacíos.");
 }
 
+
+System.out.println("\n=== MÓDULO DE SOLICITUDES ===");
+
+SolicitudDatos datosSolicitudes =
+        new SolicitudDatos(
+                100,
+                datosAnimales,
+                datosAdoptantes
+        );
+
+Solicitud solicitud1 = new Solicitud(
+        "S001",
+        "1234567890101",
+        "A001",
+        "05/09/2026",
+        "Pendiente"
+);
+
+boolean registrada = datosSolicitudes.registrarSolicitud(solicitud1);
+
+System.out.println();
+System.out.println("===== PRUEBAS DEL DIA 4 - PASO 2 =====");
+
+Solicitud solicitud2 = new Solicitud(
+        "S002",
+        "1234567890101",
+        "A001",
+        "05/09/2026",
+        "Pendiente"
+);
+
+boolean registradaSolicitud2 =
+        datosSolicitudes.registrarSolicitud(solicitud2);
+
+System.out.println("Segunda solicitud para el mismo animal: "
+        + registradaSolicitud2);
+
+boolean estadoIncorrecto =
+        datosSolicitudes.cambiarEstado(
+                "S001",
+                "CualquierEstado"
+        );
+
+System.out.println("Cambiar a estado incorrecto: "
+        + estadoIncorrecto);
+
+Solicitud solicitud3 = new Solicitud(
+        "S003",
+        "1234567890101",
+        "A999",
+        "05/09/2026",
+        "Pendiente"
+);
+
+boolean animalInexistente =
+        datosSolicitudes.registrarSolicitud(solicitud3);
+
+System.out.println("Solicitud con animal inexistente: "
+        + animalInexistente);
+
+Solicitud solicitud4 = new Solicitud(
+        "S004",
+        "1111111111111",
+        "A001",
+        "05/09/2026",
+        "Pendiente"
+);
+
+boolean adoptanteInexistente =
+        datosSolicitudes.registrarSolicitud(solicitud4);
+
+System.out.println("Solicitud con adoptante inexistente: "
+        + adoptanteInexistente);
+
+
+
+if (registrada) {
+    System.out.println("Solicitud registrada correctamente.");
+} else {
+    System.out.println("No se pudo registrar la solicitud.");
+}
+
+System.out.println("\n=== SOLICITUDES REGISTRADAS ===");
+
+datosSolicitudes.listarSolicitudes();
+
+System.out.println("\n=== BUSCAR SOLICITUD ===");
+
+Solicitud solicitudEncontrada =
+        datosSolicitudes.buscarSolicitud("S001");
+
+if (solicitudEncontrada != null) {
+
+    System.out.println("Solicitud encontrada:");
+    System.out.println(solicitudEncontrada);
+
+} else {
+
+    System.out.println("Solicitud no encontrada.");
+}
+
+System.out.println("\n=== CAMBIAR ESTADO ===");
+
+boolean estadoActualizado =
+        datosSolicitudes.cambiarEstado(
+                "S001",
+                "Aprobada"
+        );
+
+if (estadoActualizado) {
+    System.out.println("Estado actualizado correctamente.");
+} else {
+    System.out.println("No se encontró la solicitud.");
+}
+
+datosSolicitudes.listarSolicitudes();
 
 
 
