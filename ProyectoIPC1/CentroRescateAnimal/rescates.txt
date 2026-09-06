@@ -1,0 +1,2 @@
+R001;06/09/2026;Zona 1;Perro;Perro encontrado en la calle.;En atención
+R002;06/09/2026;Zona 12;Gato;Gato encontrado en una vivienda abandonada.;Registrado

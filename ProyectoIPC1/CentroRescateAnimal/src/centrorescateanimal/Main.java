@@ -1,17 +1,19 @@
 package centrorescateanimal;
-
 import datos.AnimalDatos;
 import datos.AdoptanteDatos;
 import datos.SolicitudDatos;
+import datos.RescateDatos;
 
 import modelo.Animal;
 import modelo.Adoptante;
 import modelo.Solicitud;
+import modelo.Rescate;
 
 import persistencia.AnimalPersistencia;
 import persistencia.AdoptantePersistencia;
 import persistencia.SolicitudPersistencia;
 
+import persistencia.RescatePersistencia;
 public class Main {
 
     public static void main(String[] args) {
@@ -783,6 +785,179 @@ public class Main {
             );
         }
 
+        
+        // ==================================================
+// PRUEBAS DEL MODULO DE RESCATES
+// ==================================================
+
+System.out.println("\n=================================");
+System.out.println("PRUEBAS DEL MODULO DE RESCATES");
+System.out.println("=================================");
+
+RescateDatos datosRescates = new RescateDatos(100);
+
+// Registrar rescates
+
+Rescate rescate1 = new Rescate(
+        "R001",
+        "06/09/2026",
+        "Zona 1",
+        "Perro",
+        "Perro encontrado en la calle.",
+        "Registrado"
+);
+
+Rescate rescate2 = new Rescate(
+        "R002",
+        "06/09/2026",
+        "Zona 12",
+        "Gato",
+        "Gato encontrado en una vivienda abandonada.",
+        "Registrado"
+);
+
+System.out.println(
+        "Registrar R001: "
+        + datosRescates.registrarRescate(rescate1)
+);
+
+System.out.println(
+        "Registrar R002: "
+        + datosRescates.registrarRescate(rescate2)
+);
+
+// Listar rescates
+
+System.out.println("\nRescates registrados:");
+
+datosRescates.listarRescates();
+
+// Buscar rescate
+
+System.out.println("\nBuscar R001:");
+
+Rescate rescateEncontrado =
+        datosRescates.buscarRescate("R001");
+
+if (rescateEncontrado != null) {
+    System.out.println(rescateEncontrado);
+} else {
+    System.out.println("Rescate no encontrado.");
+}
+
+// Cambiar estado
+
+System.out.println("\nCambiar estado de R001:");
+
+boolean cambioEstado =
+        datosRescates.cambiarEstado(
+                "R001",
+                "En atención"
+        );
+
+System.out.println(
+        "Cambio realizado: " + cambioEstado
+);
+
+System.out.println(
+        datosRescates.buscarRescate("R001")
+);
+
+// Probar código duplicado
+
+System.out.println("\nProbar rescate duplicado:");
+
+Rescate rescateDuplicado = new Rescate(
+        "R001",
+        "07/09/2026",
+        "Zona 3",
+        "Perro",
+        "Otro caso.",
+        "Registrado"
+);
+
+System.out.println(
+        "Registrar duplicado: "
+        + datosRescates.registrarRescate(rescateDuplicado)
+);
+
+// Probar estado inválido
+
+System.out.println("\nProbar estado inválido:");
+
+Rescate rescateInvalido = new Rescate(
+        "R003",
+        "07/09/2026",
+        "Zona 5",
+        "Gato",
+        "Caso de prueba.",
+        "EstadoInventado"
+);
+
+System.out.println(
+        "Registrar estado inválido: "
+        + datosRescates.registrarRescate(rescateInvalido)
+);
+
+// Eliminar lógicamente
+
+System.out.println("\nEliminar R002:");
+
+
+
+System.out.println(
+        "Eliminación realizada: " + eliminado
+);
+
+// Listar nuevamente
+
+System.out.println("\nRescates después de las pruebas:");
+
+datosRescates.listarRescates();
+
+// ==================================================
+// PRUEBA DE PERSISTENCIA DE RESCATES
+// ==================================================
+
+System.out.println("\n=================================");
+System.out.println("PERSISTENCIA DE RESCATES");
+System.out.println("=================================");
+
+RescatePersistencia persistenciaRescates =
+        new RescatePersistencia("rescates.txt");
+
+// Guardar
+
+boolean guardadoRescates =
+        persistenciaRescates.guardar(datosRescates);
+
+System.out.println(
+        "Rescates guardados: "
+        + guardadoRescates
+);
+
+// Crear una estructura nueva
+
+RescateDatos rescatesCargados =
+        new RescateDatos(100);
+
+// Cargar
+
+boolean cargadoRescates =
+        persistenciaRescates.cargar(
+                rescatesCargados
+        );
+
+System.out.println(
+        "Rescates cargados: "
+        + cargadoRescates
+);
+
+// Mostrar datos cargados
+
+System.out.println("\nRescates recuperados del archivo:");
+
+rescatesCargados.listarRescates();
 
         // =====================================================
         // FIN
