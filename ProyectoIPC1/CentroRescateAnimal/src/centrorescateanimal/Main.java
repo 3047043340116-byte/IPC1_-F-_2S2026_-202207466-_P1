@@ -12,8 +12,11 @@ import modelo.Rescate;
 import persistencia.AnimalPersistencia;
 import persistencia.AdoptantePersistencia;
 import persistencia.SolicitudPersistencia;
-
+import datos.EspacioRefugioDatos;
+import modelo.EspacioRefugio;
 import persistencia.RescatePersistencia;
+import persistencia.EspacioRefugioPersistencia;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -958,6 +961,244 @@ System.out.println(
 System.out.println("\nRescates recuperados del archivo:");
 
 rescatesCargados.listarRescates();
+
+// ==================================================
+// PRUEBAS DEL MODULO DE ESPACIOS DEL REFUGIO
+// ==================================================
+
+System.out.println("\n=================================");
+System.out.println("PRUEBAS DE ESPACIOS DEL REFUGIO");
+System.out.println("=================================");
+
+EspacioRefugioDatos datosEspacios =
+        new EspacioRefugioDatos(3, 4);
+
+// Mostrar matriz inicial
+
+System.out.println("\nMatriz inicial:");
+
+datosEspacios.mostrarMatriz();
+
+System.out.println(
+        "Espacios disponibles: "
+        + datosEspacios.contarDisponibles()
+);
+
+// Asignar animales
+
+System.out.println("\nAsignar A001:");
+
+boolean asignacion1 =
+        datosEspacios.asignarAnimal(
+                0,
+                0,
+                "A001"
+        );
+
+System.out.println(
+        "Asignación realizada: "
+        + asignacion1
+);
+
+System.out.println("\nAsignar A002:");
+
+boolean asignacion2 =
+        datosEspacios.asignarAnimal(
+                1,
+                2,
+                "A002"
+        );
+
+System.out.println(
+        "Asignación realizada: "
+        + asignacion2
+);
+
+// Mostrar matriz
+
+System.out.println("\nMatriz después de asignar:");
+
+datosEspacios.mostrarMatriz();
+
+// Consultar espacio
+
+System.out.println("\nConsultar posición 0,0:");
+
+EspacioRefugio espacio =
+        datosEspacios.consultarEspacio(0, 0);
+
+if (espacio != null) {
+
+    System.out.println(
+            "Fila: " + espacio.getFila()
+            + " | Columna: "
+            + espacio.getColumna()
+            + " | Animal: "
+            + espacio.getCodigoAnimal()
+    );
+}
+
+// Buscar animal
+
+System.out.println("\nBuscar ubicación de A002:");
+
+EspacioRefugio ubicacion =
+        datosEspacios.buscarAnimal("A002");
+
+if (ubicacion != null) {
+
+    System.out.println(
+            "A002 está en fila "
+            + ubicacion.getFila()
+            + ", columna "
+            + ubicacion.getColumna()
+    );
+
+} else {
+
+    System.out.println(
+            "Animal no encontrado en la matriz."
+    );
+}
+
+// Probar espacio ocupado
+
+System.out.println(
+        "\nIntentar asignar A003 en posición ocupada:"
+);
+
+boolean asignacionOcupada =
+        datosEspacios.asignarAnimal(
+                0,
+                0,
+                "A003"
+        );
+
+System.out.println(
+        "Asignación realizada: "
+        + asignacionOcupada
+);
+
+// Probar animal duplicado
+
+System.out.println(
+        "\nIntentar asignar A001 nuevamente:"
+);
+
+boolean animalDuplicado =
+        datosEspacios.asignarAnimal(
+                2,
+                0,
+                "A001"
+        );
+
+System.out.println(
+        "Asignación realizada: "
+        + animalDuplicado
+);
+
+// Liberar espacio
+
+System.out.println(
+        "\nLiberar posición 0,0:"
+);
+
+boolean liberado =
+        datosEspacios.liberarEspacio(
+                0,
+                0
+        );
+
+System.out.println(
+        "Espacio liberado: "
+        + liberado
+);
+
+// Mostrar matriz final
+
+System.out.println(
+        "\nMatriz después de liberar:"
+);
+
+datosEspacios.mostrarMatriz();
+
+System.out.println(
+        "\nEspacios ocupados: "
+        + datosEspacios.contarOcupados()
+);
+
+System.out.println(
+        "Espacios disponibles: "
+        + datosEspacios.contarDisponibles()
+);
+
+// Probar posición inválida
+
+System.out.println(
+        "\nProbar posición inválida:"
+);
+
+boolean posicionInvalida =
+        datosEspacios.asignarAnimal(
+                10,
+                10,
+                "A003"
+        );
+
+System.out.println(
+        "Asignación realizada: "
+        + posicionInvalida
+);
+
+// ==================================================
+// PERSISTENCIA DE ESPACIOS
+// ==================================================
+
+System.out.println("\n=================================");
+System.out.println("PERSISTENCIA DE ESPACIOS");
+System.out.println("=================================");
+
+EspacioRefugioPersistencia persistenciaEspacios =
+        new EspacioRefugioPersistencia(
+                "espacios.txt"
+        );
+
+// Guardar matriz
+
+boolean espaciosGuardados =
+        persistenciaEspacios.guardar(
+                datosEspacios
+        );
+
+System.out.println(
+        "Espacios guardados: "
+        + espaciosGuardados
+);
+
+// Crear matriz nueva
+
+EspacioRefugioDatos espaciosCargados =
+        new EspacioRefugioDatos(3, 4);
+
+// Cargar
+
+boolean espaciosCargadosResultado =
+        persistenciaEspacios.cargar(
+                espaciosCargados
+        );
+
+System.out.println(
+        "Espacios cargados: "
+        + espaciosCargadosResultado
+);
+
+// Mostrar matriz recuperada
+
+System.out.println(
+        "\nMatriz recuperada del archivo:"
+);
+
+espaciosCargados.mostrarMatriz();
 
         // =====================================================
         // FIN
