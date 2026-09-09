@@ -1,0 +1,2 @@
+admin;admin123;Administrador
+auxiliar;auxiliar123;Auxiliar
