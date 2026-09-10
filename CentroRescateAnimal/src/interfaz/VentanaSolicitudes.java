@@ -31,6 +31,8 @@ private DefaultTableModel modeloTabla;
     /**
      * Creates new form VentanaSolicitudes
      */
+
+
    public VentanaSolicitudes() {
 
     initComponents();

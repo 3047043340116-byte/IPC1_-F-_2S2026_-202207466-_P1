@@ -83,9 +83,21 @@ public class VentanaPrincipal extends JFrame {
     this.setVisible(false);
 });
 
-        btnRescates.addActionListener(e -> mostrarPendiente("Rescates"));
+   btnRescates.addActionListener(e -> {
+    VentanaRescates ventana = new VentanaRescates();
+    ventana.setVisible(true);
+    this.setVisible(false);
+});
 
-        btnUbicaciones.addActionListener(e -> mostrarPendiente("Ubicaciones"));
+        btnUbicaciones.addActionListener(e -> {
+
+    VentanaUbicaciones ventana =
+            new VentanaUbicaciones();
+
+    ventana.setVisible(true);
+
+    this.setVisible(false);
+});
 
         btnReportes.addActionListener(e -> mostrarPendiente("Reportes"));
 
