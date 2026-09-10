@@ -8,16 +8,44 @@ package interfaz;
  *
  * @author Osvin
  */
+
+import datos.AdoptanteDatos;
+import modelo.Adoptante;
+import persistencia.AdoptantePersistencia;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class VentanaAdoptantes extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaAdoptantes.class.getName());
+    
+        private AdoptanteDatos datosAdoptantes;
+    private AdoptantePersistencia persistencia;
+    private DefaultTableModel modeloTabla;
 
     /**
      * Creates new form VentanaAdoptantes
      */
-    public VentanaAdoptantes() {
-        initComponents();
-    }
+public VentanaAdoptantes() {
+
+    initComponents();
+
+    datosAdoptantes = new AdoptanteDatos(100);
+
+    persistencia = new AdoptantePersistencia("adoptantes.txt");
+
+    configurarTabla();
+
+    cargarDatos();
+
+    actualizarTabla();
+
+    configurarEventos();
+
+    setLocationRelativeTo(null);
+    
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,6 +74,7 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAdoptantes = new javax.swing.JTable();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,6 +116,8 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaAdoptantes);
 
+        btnRegresar.setText("Regresar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,10 +128,9 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                                .addComponent(dpi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+                            .addComponent(dpi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -119,15 +149,17 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,22 +187,19 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -179,6 +208,448 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
     private void cmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEstadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbEstadoActionPerformed
+private void configurarTabla() {
+
+    modeloTabla = new DefaultTableModel(
+            new Object[][]{},
+            new String[]{
+                "DPI",
+                "Nombre",
+                "Teléfono",
+                "Dirección",
+                "Estado"
+            }
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    tablaAdoptantes.setModel(modeloTabla);
+}
+
+private void cargarDatos() {
+
+    persistencia.cargar(datosAdoptantes);
+}
+private void configurarEventos() {
+
+    btnRegistrar.addActionListener(e -> registrarAdoptante());
+
+    btnBuscar.addActionListener(e -> buscarAdoptante());
+
+    btnEditar.addActionListener(e -> editarAdoptante());
+
+    btnEliminar.addActionListener(e -> eliminarAdoptante());
+
+    btnLimpiar.addActionListener(e -> limpiarCampos());
+    
+    btnRegresar.addActionListener(e -> {
+    VentanaPrincipal ventana = new VentanaPrincipal();
+    ventana.setVisible(true);
+    this.dispose();
+});
+
+    tablaAdoptantes.getSelectionModel().addListSelectionListener(e -> {
+
+        if (!e.getValueIsAdjusting()) {
+            cargarAdoptanteSeleccionado();
+        }
+    });
+}
+private void registrarAdoptante() {
+
+    String dpi = txtDpi.getText().trim();
+    String nombre = txtNombre.getText().trim();
+    String telefono = txtTelefono.getText().trim();
+    String direccion = txtDireccion.getText().trim();
+    String estado = cmbEstado.getSelectedItem().toString();
+
+    if (dpi.isEmpty()
+            || nombre.isEmpty()
+            || telefono.isEmpty()
+            || direccion.isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Debe completar todos los campos.",
+                "Datos incompletos",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        return;
+    }
+
+    if (!dpi.matches("\\d{13}")) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "El DPI debe contener exactamente 13 dígitos.",
+                "DPI inválido",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        txtDpi.requestFocus();
+        return;
+    }
+
+    if (datosAdoptantes.buscarAdoptante(dpi) != null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Ya existe un adoptante registrado con ese DPI.",
+                "DPI duplicado",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        txtDpi.requestFocus();
+        return;
+    }
+
+    Adoptante adoptante = new Adoptante(
+            dpi,
+            nombre,
+            telefono,
+            direccion,
+            estado
+    );
+
+    boolean registrado =
+            datosAdoptantes.registrarAdoptante(adoptante);
+
+    if (!registrado) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "No se pudo registrar el adoptante.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        return;
+    }
+
+    persistencia.guardar(datosAdoptantes);
+
+    actualizarTabla();
+
+    limpiarCampos();
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Adoptante registrado correctamente.",
+            "Registro exitoso",
+            JOptionPane.INFORMATION_MESSAGE
+    );
+}
+private void buscarAdoptante() {
+
+    String dpi = txtDpi.getText().trim();
+
+    if (dpi.isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Ingrese el DPI que desea buscar.",
+                "DPI requerido",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        txtDpi.requestFocus();
+        return;
+    }
+
+    Adoptante adoptante =
+            datosAdoptantes.buscarAdoptante(dpi);
+
+    if (adoptante == null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "No se encontró ningún adoptante con ese DPI.",
+                "No encontrado",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        return;
+    }
+
+    txtDpi.setText(adoptante.getDpi());
+    txtNombre.setText(adoptante.getNombre());
+    txtTelefono.setText(adoptante.getTelefono());
+    txtDireccion.setText(adoptante.getDireccion());
+
+    cmbEstado.setSelectedItem(adoptante.getEstado());
+
+    seleccionarAdoptanteEnTabla(adoptante.getDpi());
+}
+private void editarAdoptante() {
+
+    String dpi = txtDpi.getText().trim();
+    String nombre = txtNombre.getText().trim();
+    String telefono = txtTelefono.getText().trim();
+    String direccion = txtDireccion.getText().trim();
+    String estado = cmbEstado.getSelectedItem().toString();
+
+    if (dpi.isEmpty()
+            || nombre.isEmpty()
+            || telefono.isEmpty()
+            || direccion.isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Complete todos los campos.",
+                "Datos incompletos",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        return;
+    }
+
+    if (!dpi.matches("\\d{13}")) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "El DPI debe contener exactamente 13 dígitos.",
+                "DPI inválido",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        txtDpi.requestFocus();
+        return;
+    }
+
+    Adoptante adoptante =
+            datosAdoptantes.buscarAdoptante(dpi);
+
+    if (adoptante == null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "No existe un adoptante con ese DPI.",
+                "No encontrado",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        return;
+    }
+
+    if ("Eliminado".equals(adoptante.getEstado())) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "No se puede editar un adoptante eliminado.",
+                "Operación no permitida",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        return;
+    }
+
+    boolean editado =
+            datosAdoptantes.editarAdoptante(
+                    dpi,
+                    nombre,
+                    telefono,
+                    direccion
+            );
+
+    if (!editado) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "No se pudo editar el adoptante.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        return;
+    }
+
+    datosAdoptantes.cambiarEstado(dpi, estado);
+
+    persistencia.guardar(datosAdoptantes);
+
+    actualizarTabla();
+
+    limpiarCampos();
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Adoptante actualizado correctamente.",
+            "Edición exitosa",
+            JOptionPane.INFORMATION_MESSAGE
+    );
+}
+private void eliminarAdoptante() {
+
+    String dpi = txtDpi.getText().trim();
+
+    if (dpi.isEmpty()) {
+
+        int fila = tablaAdoptantes.getSelectedRow();
+
+        if (fila != -1) {
+
+            dpi = modeloTabla.getValueAt(
+                    fila,
+                    0
+            ).toString();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Ingrese un DPI o seleccione un adoptante de la tabla.",
+                    "Adoptante requerido",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+    }
+
+    Adoptante adoptante =
+            datosAdoptantes.buscarAdoptante(dpi);
+
+    if (adoptante == null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "No existe un adoptante con ese DPI.",
+                "No encontrado",
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        return;
+    }
+
+    int confirmacion =
+            JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Está seguro de eliminar este adoptante?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+    if (confirmacion != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    boolean eliminado =
+            datosAdoptantes.eliminarAdoptante(dpi);
+
+    if (!eliminado) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "No se pudo eliminar el adoptante.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        return;
+    }
+
+    persistencia.guardar(datosAdoptantes);
+
+    actualizarTabla();
+
+    limpiarCampos();
+
+    JOptionPane.showMessageDialog(
+            this,
+            "Adoptante eliminado correctamente.",
+            "Eliminación exitosa",
+            JOptionPane.INFORMATION_MESSAGE
+    );
+}
+private void limpiarCampos() {
+
+    txtDpi.setText("");
+    txtNombre.setText("");
+    txtTelefono.setText("");
+    txtDireccion.setText("");
+
+    cmbEstado.setSelectedIndex(0);
+
+    tablaAdoptantes.clearSelection();
+
+    txtDpi.requestFocus();
+}
+private void actualizarTabla() {
+
+    modeloTabla.setRowCount(0);
+
+    for (int i = 0;
+            i < datosAdoptantes.getCantidad();
+            i++) {
+
+        Adoptante adoptante =
+                datosAdoptantes.getAdoptante(i);
+
+        if (adoptante != null
+                && !"Eliminado".equals(adoptante.getEstado())) {
+
+            modeloTabla.addRow(
+                    new Object[]{
+                        adoptante.getDpi(),
+                        adoptante.getNombre(),
+                        adoptante.getTelefono(),
+                        adoptante.getDireccion(),
+                        adoptante.getEstado()
+                    }
+            );
+        }
+    }
+}
+private void cargarAdoptanteSeleccionado() {
+
+    int fila = tablaAdoptantes.getSelectedRow();
+
+    if (fila == -1) {
+        return;
+    }
+
+    txtDpi.setText(
+            modeloTabla.getValueAt(fila, 0).toString()
+    );
+
+    txtNombre.setText(
+            modeloTabla.getValueAt(fila, 1).toString()
+    );
+
+    txtTelefono.setText(
+            modeloTabla.getValueAt(fila, 2).toString()
+    );
+
+    txtDireccion.setText(
+            modeloTabla.getValueAt(fila, 3).toString()
+    );
+
+    cmbEstado.setSelectedItem(
+            modeloTabla.getValueAt(fila, 4).toString()
+    );
+}
+private void seleccionarAdoptanteEnTabla(String dpi) {
+
+    for (int i = 0;
+            i < modeloTabla.getRowCount();
+            i++) {
+
+        String dpiTabla =
+                modeloTabla.getValueAt(i, 0).toString();
+
+        if (dpiTabla.equals(dpi)) {
+
+            tablaAdoptantes.setRowSelectionInterval(i, i);
+
+            return;
+        }
+    }
+}
+
 
     /**
      * @param args the command line arguments
@@ -211,6 +682,7 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JLabel dpi;
     private javax.swing.JLabel jLabel1;
@@ -225,4 +697,7 @@ public class VentanaAdoptantes extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+
+
 }
+

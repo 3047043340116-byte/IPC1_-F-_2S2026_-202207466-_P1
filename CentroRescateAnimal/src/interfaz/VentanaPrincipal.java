@@ -70,9 +70,18 @@ public class VentanaPrincipal extends JFrame {
             this.setVisible(false);
         });
 
-        btnAdoptantes.addActionListener(e -> mostrarPendiente("Adoptantes"));
+        btnAdoptantes.addActionListener(e -> {
+    VentanaAdoptantes ventana = new VentanaAdoptantes();
+    ventana.setVisible(true);
+    this.setVisible(false);
+});
+        
 
-        btnSolicitudes.addActionListener(e -> mostrarPendiente("Solicitudes"));
+        btnSolicitudes.addActionListener(e -> {
+    VentanaSolicitudes ventana = new VentanaSolicitudes();
+    ventana.setVisible(true);
+    this.setVisible(false);
+});
 
         btnRescates.addActionListener(e -> mostrarPendiente("Rescates"));
 
