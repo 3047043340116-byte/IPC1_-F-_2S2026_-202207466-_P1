@@ -1,2 +1,0 @@
-1234567890123;Juan Perez;55556666;Guatemala;Activo
-9876543210987;Maria Lopez;44444444;Mixco;Activo
