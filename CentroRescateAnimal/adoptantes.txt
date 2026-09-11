@@ -1,3 +1,2 @@
-1234567890101;Juan Pérez López;55556666;Villa Nueva;Eliminado
-9876543210101;María López;44444444;Mixco;Eliminado
-3047043340116;ana;43977406;1avzonz3;Eliminado
+1234567890123;Juan Perez;55556666;Guatemala;Activo
+9876543210987;Maria Lopez;44444444;Mixco;Activo

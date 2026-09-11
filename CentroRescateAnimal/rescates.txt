@@ -1,2 +1,2 @@
-R001;06/09/2026;Zona 1;Perro;Perro encontrado en la calle.;Media;En atención
-R002;06/09/2026;Zona 12;Gato;Gato encontrado en una vivienda abandonada.;Media;Completado
+R001;10/09/2026;Zona 1;Perro;Perro encontrado en la calle.;Alta;Registrado
+R002;09/09/2026;Zona 12;Gato;Gato encontrado en una vivienda.;Media;En atención

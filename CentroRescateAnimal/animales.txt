@@ -1,2 +1,3 @@
-A002;Michi;Gato;Eliminado
-00001;ana;perro;Eliminado
+A001;Luna;Perro;Disponible
+A002;Michi;Gato;En atención
+A003;Max;Perro;Rescatado
