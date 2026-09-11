@@ -1,0 +1,9 @@
+10/09/2026 15:00:00;Sistema;INICIO;Archivo de demostración creado
+10/09/2026 22:11:04;Sistema;REPORTE;Generado reporte de animales
+10/09/2026 22:11:04;Sistema;REPORTE;Generado reporte de adopciones
+10/09/2026 22:11:04;Sistema;REPORTE;Generado reporte de ocupación
+10/09/2026 22:11:04;Sistema;REPORTE;Generado reporte de bitácora
+10/09/2026 16:16:03;Sistema;REPORTE;Generado reporte de animales
+10/09/2026 16:16:08;Sistema;REPORTE;Generado reporte de adopciones
+10/09/2026 16:16:56;Sistema;DATOS;Actualización de datos del estudiante
+10/09/2026 16:31:08;Sistema;REPORTE;Generado reporte de bitácora

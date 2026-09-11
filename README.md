@@ -1,15 +1,34 @@
-# IPC1_-F-_2S2026_-202207466-_P1
-Funcionalidad básica del programa
+# Centro de Rescate Animal - IPC1
 
-El sistema Centro de Rescate Animal: Gestión de Refugio y Adopciones permite administrar de manera gráfica la información de un refugio de animales. El usuario inicia sesión y, dependiendo de su tipo de usuario, puede acceder a los diferentes módulos del sistema.
+Proyecto Java Swing para gestionar animales, adoptantes, solicitudes de adopción, rescates, ubicaciones, reportes HTML y bitácora.
 
-El funcionamiento básico es el siguiente:
+## Requisitos
+- Java 17 o superior.
+- NetBeans u otro IDE compatible con Ant.
+- El proyecto usa arreglos estáticos y matrices; no usa ArrayList, HashMap, List, Queue, Stack ni Vector.
 
-Inicio de sesión: el usuario ingresa sus credenciales para acceder al sistema.
-Animales: permite registrar animales rescatados, buscarlos, consultar su información, modificar su estado y eliminarlos lógicamente.
-Adoptantes: permite registrar y consultar personas interesadas en adoptar, además de modificar su información y estado.
-Solicitudes: permite registrar solicitudes de adopción, consultar su historial y cambiar su estado entre pendiente, aprobada o rechazada.
-Rescates: permite registrar casos de rescate, asignarles una prioridad y controlar su estado de atención.
-Ubicaciones: representa los espacios disponibles del refugio mediante una matriz. Permite consultar espacios, asignar animales y liberar espacios ocupados.
-Reportes: genera archivos HTML con información sobre animales, adopciones, ocupación del refugio y bitácora de acciones.
-Datos del estudiante: permite registrar y consultar los datos correspondientes al estudiante.
+## Ejecución
+1. Abrir la carpeta `CentroRescateAnimal` en NetBeans.
+2. Verificar Java 17+ en las propiedades del proyecto.
+3. Ejecutar `centrorescateanimal.Main`.
+4. Credenciales de demostración:
+   - Administrador: `admin` / `admin123`
+   - Auxiliar: `auxiliar` / `auxiliar123`
+
+## Módulos
+- Animales: registrar, buscar por código/nombre/especie/estado, actualizar estado y eliminar lógicamente.
+- Adoptantes: registrar, buscar, editar y eliminar lógicamente.
+- Solicitudes: registrar, buscar, cambiar/atender estados y validar animal/adoptante.
+- Rescates: registrar, buscar, cambiar prioridad/estado y atender.
+- Ubicaciones: matriz 4x5, consulta, asignación, liberación y control de ocupación.
+- Reportes: animales, adopciones, ocupación y bitácora en HTML.
+- Datos del estudiante: información editable y persistente.
+
+## Archivos de datos
+`animales.txt`, `adoptantes.txt`, `solicitudes.txt`, `rescates.txt`, `espacios.txt`, `usuarios.txt`, `bitacora.txt` y `estudiante.txt`.
+
+## Nota sobre datos personales
+El archivo `estudiante.txt` contiene valores de reemplazo. Antes de entregar, el estudiante debe escribir su propio nombre, carné y sección.
+
+## Nota sobre la interfaz
+La versión entregada conserva las ventanas que ya estaban creadas en NetBeans GUI Builder y se completó su lógica. Si la cátedra exige estrictamente construcción manual por código, debe verificarse esta excepción con el docente antes de entregar.
