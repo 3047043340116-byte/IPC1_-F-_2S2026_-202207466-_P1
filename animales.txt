@@ -1,3 +1,0 @@
-A001;Luna;Perro;Disponible
-A002;Michi;Gato;En atención
-A003;Max;Perro;Rescatado
