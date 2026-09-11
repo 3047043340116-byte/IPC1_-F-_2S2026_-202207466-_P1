@@ -76,6 +76,20 @@ public class RescateDatos {
             return false;
         }
 
+        String estadoActual = rescate.getEstado();
+
+        if ("Registrado".equals(estadoActual)) {
+            if (!"En atención".equals(nuevoEstado)) {
+                return false;
+            }
+        } else if ("En atención".equals(estadoActual)) {
+            if (!"Completado".equals(nuevoEstado)) {
+                return false;
+            }
+        } else if ("Completado".equals(estadoActual)) {
+            return false;
+        }
+
         rescate.setEstado(nuevoEstado);
         return true;
     }

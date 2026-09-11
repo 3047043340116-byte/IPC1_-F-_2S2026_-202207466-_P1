@@ -56,6 +56,11 @@ public class SolicitudDatos {
 
         solicitudes[cantidad] = solicitud;
         cantidad++;
+
+        if ("Aprobada".equals(solicitud.getEstado())) {
+            datosAnimales.editarEstado(solicitud.getCodigoAnimal(), "Adoptado");
+        }
+
         return true;
     }
 
@@ -92,6 +97,10 @@ public class SolicitudDatos {
         Solicitud solicitud = buscarSolicitud(codigo);
 
         if (solicitud == null) {
+            return false;
+        }
+
+        if (!"Pendiente".equals(solicitud.getEstado())) {
             return false;
         }
 

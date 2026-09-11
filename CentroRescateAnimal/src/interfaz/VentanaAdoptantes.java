@@ -76,7 +76,7 @@ public VentanaAdoptantes() {
         tablaAdoptantes = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblTitulo.setText("GESTIÓN DE ADOPTANTES");
 
